@@ -1,0 +1,42 @@
+package com.atsistemas.apireservas.services.impl;
+
+import com.atsistemas.apireservas.models.Hotel;
+import com.atsistemas.apireservas.repository.HotelsRepository;
+import com.atsistemas.apireservas.services.HotelsService;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class HotelsServiceImpl implements HotelsService {
+
+    private HotelsRepository repository;
+
+    public HotelsServiceImpl(HotelsRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public Hotel createHotel(Hotel hotel) {
+        return repository.save(hotel);
+    }
+
+    @Override
+    public Hotel updateHotel(Integer idHotel, Hotel hotel) {
+        return null;
+    }
+
+    @Override
+    public Optional<Hotel> findHotelById(Integer idHotel) {
+        return repository.findById(idHotel);
+    }
+
+    @Override
+    public List<Hotel> findAllHotels() {
+        return repository.findAll();
+    }
+
+
+}
