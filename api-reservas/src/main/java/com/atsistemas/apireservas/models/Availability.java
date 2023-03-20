@@ -14,8 +14,10 @@ public class Availability {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "date")
+    @Column(name = "availability_date")
     private LocalDate date;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Hotel hotel;
     @Column(name = "rooms")
     private Integer rooms;
 }

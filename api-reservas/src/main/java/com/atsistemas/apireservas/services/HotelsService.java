@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface HotelsService {
-    Hotel createHotel(Hotel hotel);
+    void createHotel(Hotel hotel);
 
-    Hotel updateHotel(Integer idHotel, Hotel hotel);
+    void updateHotel(Integer idHotel, Hotel hotel);
 
     Optional<Hotel> findHotelById(Integer idHotel);
 
