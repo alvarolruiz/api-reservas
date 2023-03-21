@@ -1,16 +1,17 @@
 package com.atsistemas.apireservas.services;
 
-import java.awt.print.Book;
+import com.atsistemas.apireservas.entities.Booking;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 public interface BookingsService {
-    Book bookRoom(Integer idHotel, LocalDate dateFrom, LocalDate dateTo, String email);
+    void saveBooking(Booking booking);
 
-    List<Book> findBooksForHotelBetweenDates(Integer idHotel, LocalDate dateFrom, LocalDate dateTo);
+    List<Booking> findBookingsForHotelBetweenDates(Integer idHotel, LocalDate dateFrom, LocalDate dateTo);
 
-    Optional<Book> findBookById (Integer bookId);
+    Optional<Booking> findBookingById (Integer bookId);
 
-    boolean cancelBook (Integer bookId);
+    void cancelBook (Integer bookId);
 }

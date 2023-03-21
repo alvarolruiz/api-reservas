@@ -1,10 +1,10 @@
 package com.atsistemas.apireservas.services.impl;
 
+import com.atsistemas.apireservas.entities.Booking;
 import com.atsistemas.apireservas.repositories.BookingsRepository;
 import com.atsistemas.apireservas.services.BookingsService;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Book;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -18,23 +18,26 @@ public class BookingsServiceImpl implements BookingsService {
         this.repository = repository;
     }
 
+
     @Override
-    public Book bookRoom(Integer idHotel, LocalDate dateFrom, LocalDate dateTo, String email) {
-        return null;
+    public void saveBooking(Booking booking) {
+        repository.save(booking);
     }
 
     @Override
-    public List<Book> findBooksForHotelBetweenDates(Integer idHotel, LocalDate dateFrom, LocalDate dateTo) {
-        return null;
+    public List<Booking> findBookingsForHotelBetweenDates(Integer idHotel, LocalDate dateFrom, LocalDate dateTo) {
+        return repository.findBooksForHotelBetweenDates(idHotel, dateFrom, dateTo);
     }
 
     @Override
-    public Optional<Book> findBookById(Integer bookId) {
-        return Optional.empty();
+    public Optional<Booking> findBookingById(Integer bookId) {
+        return repository.findById(bookId);
     }
 
     @Override
-    public boolean cancelBook(Integer bookId) {
-        return false;
+    public void cancelBook(Integer bookId) {
+        //Cuando se cancela se abre la disponibilidad de nuevo, pero en que momento se ha actualizado, y es
+        //necesario poner el numero de habitaciones a reservar. Asumo que es una
+        repository.deleteById(bookId);
     }
 }

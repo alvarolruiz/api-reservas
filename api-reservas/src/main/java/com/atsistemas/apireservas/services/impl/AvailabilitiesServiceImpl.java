@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +28,7 @@ public class AvailabilitiesServiceImpl implements AvailabilitiesService {
         List<LocalDate> datesRange = DateUtils.getDatesBetweenTwoDates(dateFrom, dateTo);
         List<Availability> availabilitiesList = datesRange.stream()
                 .map(date -> repository.findAvailabilityForDateAndIdHotel(date, idHotel)
-                .orElseGet(() -> new Availability(date, idHotel)))
+                        .orElseGet(() -> new Availability(date, idHotel)))
                 .collect(Collectors.toList());
         availabilitiesList.forEach(availability -> {
             availability.setRooms(availability.getRooms() + nHabitaciones);
@@ -39,13 +40,17 @@ public class AvailabilitiesServiceImpl implements AvailabilitiesService {
     public List<Availability> consultAvailability(AvailabilitiesFilter availabilitiesFilter) {
         List<LocalDate> datesRange = DateUtils.getDatesBetweenTwoDates(availabilitiesFilter.getDateFrom(), availabilitiesFilter.getDateTo());
         Specification<Availability> spec = AvailabilitiesSpecifications.getSpecification(availabilitiesFilter);
-        //TODO Hay que comprobar que hay almenos una habitacion libre para cada uno de los dias del rango
-        List<Availability> availabilityList= repository.findAll(spec);
-        boolean isAvailble = true;
-        datesRange.forEach(date -> {
-            availabilityList.stream().anyMatch(a -> a.getDate().equals(date) && a.getRooms().intValue()>=1);
-        });
-        return availabilityList;
+        List<Availability> availabilityList = repository.findAll(spec);
+        boolean isAvailble = isAvaibleInDateRange(availabilityList, datesRange);
+        return isAvailble ? availabilityList : new ArrayList<>();
+    }
+
+    private boolean isAvaibleInDateRange(List<Availability> availabilityList, List<LocalDate> datesRange) {
+        boolean isAvaible = false;
+        for (LocalDate d : datesRange) {
+            isAvaible = availabilityList.stream().anyMatch(a -> a.getDate().equals(d) && a.getRooms().intValue() >= 1);
+        }
+        return isAvaible;
     }
 
 
