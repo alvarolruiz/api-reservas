@@ -1,6 +1,6 @@
 package com.atsistemas.apireservas.services.impl;
 
-import com.atsistemas.apireservas.repository.BookingsRepository;
+import com.atsistemas.apireservas.repositories.BookingsRepository;
 import com.atsistemas.apireservas.services.BookingsService;
 import org.springframework.stereotype.Service;
 

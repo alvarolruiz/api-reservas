@@ -1,14 +1,15 @@
 package com.atsistemas.apireservas.controllers;
 
-import com.atsistemas.apireservas.models.Availability;
 import com.atsistemas.apireservas.services.AvailabilitiesService;
 import com.atsistemas.apireservas.utilities.DateUtils;
+import com.atsistemas.apireservas.utilities.filters.AvailabilitiesFilter;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
-import java.util.List;
 
 @RestController
 @RequestMapping("availabilities")
@@ -25,6 +26,12 @@ public class AvailabilityController {
         LocalDate localDateTo = DateUtils.getLocalDateFromString(dateTo);
         availabilitiesService.openAvailability(idHotel,nRooms, localDateFrom, localDateTo);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity searchAvailabilities (@Valid AvailabilitiesFilter availabilitiesFilter){
+        return ResponseEntity.ok(availabilitiesService.consultAvailability(availabilitiesFilter));
+
     }
 
 }

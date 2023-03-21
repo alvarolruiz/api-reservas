@@ -1,8 +1,8 @@
 package com.atsistemas.apireservas.controllers;
 
 import com.atsistemas.apireservas.controllers.Err.ResourceNotFoundException;
-import com.atsistemas.apireservas.dto.HotelDto;
-import com.atsistemas.apireservas.models.Hotel;
+import com.atsistemas.apireservas.dtos.HotelDto;
+import com.atsistemas.apireservas.entities.Hotel;
 import com.atsistemas.apireservas.services.HotelsService;
 import com.atsistemas.apireservas.utilities.mappers.HotelMapper;
 import org.springframework.http.HttpStatus;

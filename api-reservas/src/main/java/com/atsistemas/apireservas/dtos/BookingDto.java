@@ -1,10 +1,8 @@
-package com.atsistemas.apireservas.dto;
+package com.atsistemas.apireservas.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
 import java.time.LocalDate;
 
 @Data

@@ -1,11 +1,10 @@
 package com.atsistemas.apireservas.services.impl;
 
-import com.atsistemas.apireservas.models.Hotel;
-import com.atsistemas.apireservas.repository.HotelsRepository;
+import com.atsistemas.apireservas.entities.Hotel;
+import com.atsistemas.apireservas.repositories.HotelsRepository;
 import com.atsistemas.apireservas.services.HotelsService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 

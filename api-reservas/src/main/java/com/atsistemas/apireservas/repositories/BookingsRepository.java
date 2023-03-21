@@ -1,6 +1,6 @@
-package com.atsistemas.apireservas.repository;
+package com.atsistemas.apireservas.repositories;
 
-import com.atsistemas.apireservas.models.Booking;
+import com.atsistemas.apireservas.entities.Booking;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.atsistemas.apireservas.dto;
+package com.atsistemas.apireservas.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

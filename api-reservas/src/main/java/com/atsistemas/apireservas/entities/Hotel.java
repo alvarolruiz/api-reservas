@@ -1,4 +1,4 @@
-package com.atsistemas.apireservas.models;
+package com.atsistemas.apireservas.entities;
 
 import lombok.Data;
 

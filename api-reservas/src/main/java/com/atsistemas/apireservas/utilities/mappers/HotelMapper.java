@@ -1,7 +1,7 @@
 package com.atsistemas.apireservas.utilities.mappers;
 
-import com.atsistemas.apireservas.dto.HotelDto;
-import com.atsistemas.apireservas.models.Hotel;
+import com.atsistemas.apireservas.dtos.HotelDto;
+import com.atsistemas.apireservas.entities.Hotel;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 

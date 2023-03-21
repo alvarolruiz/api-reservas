@@ -1,15 +1,16 @@
 package com.atsistemas.apireservas.services.impl;
 
-import com.atsistemas.apireservas.models.Availability;
-import com.atsistemas.apireservas.models.Hotel;
-import com.atsistemas.apireservas.repository.AvailabilitiesRepository;
+import com.atsistemas.apireservas.entities.Availability;
+import com.atsistemas.apireservas.repositories.AvailabilitiesRepository;
 import com.atsistemas.apireservas.services.AvailabilitiesService;
 import com.atsistemas.apireservas.utilities.DateUtils;
+import com.atsistemas.apireservas.utilities.filters.AvailabilitiesFilter;
+import com.atsistemas.apireservas.utilities.specifications.AvailabilitiesSpecifications;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,7 +26,7 @@ public class AvailabilitiesServiceImpl implements AvailabilitiesService {
     public void openAvailability(Integer idHotel, Integer nHabitaciones, LocalDate dateFrom, LocalDate dateTo) {
         List<LocalDate> datesRange = DateUtils.getDatesBetweenTwoDates(dateFrom, dateTo);
         List<Availability> availabilitiesList = datesRange.stream()
-                .map(date -> repository.findAvailabilityForDate(date)
+                .map(date -> repository.findAvailabilityForDateAndIdHotel(date, idHotel)
                 .orElseGet(() -> new Availability(date, idHotel)))
                 .collect(Collectors.toList());
         availabilitiesList.forEach(availability -> {
@@ -35,8 +36,16 @@ public class AvailabilitiesServiceImpl implements AvailabilitiesService {
     }
 
     @Override
-    public List<Hotel> consultAvailability(LocalDate dateFrom, LocalDate dateTo) {
-        return null;
+    public List<Availability> consultAvailability(AvailabilitiesFilter availabilitiesFilter) {
+        List<LocalDate> datesRange = DateUtils.getDatesBetweenTwoDates(availabilitiesFilter.getDateFrom(), availabilitiesFilter.getDateTo());
+        Specification<Availability> spec = AvailabilitiesSpecifications.getSpecification(availabilitiesFilter);
+        //TODO Hay que comprobar que hay almenos una habitacion libre para cada uno de los dias del rango
+        List<Availability> availabilityList= repository.findAll(spec);
+        boolean isAvailble = true;
+        datesRange.forEach(date -> {
+            availabilityList.stream().anyMatch(a -> a.getDate().equals(date) && a.getRooms().intValue()>=1);
+        });
+        return availabilityList;
     }
 
 
