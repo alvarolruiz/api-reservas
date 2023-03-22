@@ -2,6 +2,7 @@ package com.atsistemas.apireservas.services.impl;
 
 import com.atsistemas.apireservas.entities.Booking;
 import com.atsistemas.apireservas.repositories.BookingsRepository;
+import com.atsistemas.apireservas.services.AvailabilitiesService;
 import com.atsistemas.apireservas.services.BookingsService;
 import org.springframework.stereotype.Service;
 
@@ -13,20 +14,22 @@ import java.util.Optional;
 public class BookingsServiceImpl implements BookingsService {
 
     private BookingsRepository repository;
+    private AvailabilitiesService availabilitiesService;
 
-    public BookingsServiceImpl(BookingsRepository repository) {
+    public BookingsServiceImpl(BookingsRepository repository, AvailabilitiesService availabilitiesService) {
         this.repository = repository;
+        this.availabilitiesService = availabilitiesService;
     }
-
 
     @Override
     public void saveBooking(Booking booking) {
+        availabilitiesService.reduceAvailability(booking.getIdHotel(),booking.getDateFrom(), booking.getDateTo());
         repository.save(booking);
     }
 
     @Override
     public List<Booking> findBookingsForHotelBetweenDates(Integer idHotel, LocalDate dateFrom, LocalDate dateTo) {
-        return repository.findBooksForHotelBetweenDates(idHotel, dateFrom, dateTo);
+        return repository.findBookingssForHotelBetweenDates(idHotel, dateFrom, dateTo);
     }
 
     @Override

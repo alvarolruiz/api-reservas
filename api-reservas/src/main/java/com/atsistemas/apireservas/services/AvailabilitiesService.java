@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface AvailabilitiesService {
     void openAvailability(Integer idHotel, Integer nHabitaciones, LocalDate dateFrom, LocalDate dateTo);
-
-    //Filtro con los campos por los que se puede filtrar la disponibilidad?
+    void reduceAvailability(Integer idHotel, LocalDate dateFrom, LocalDate dateTo);
     List<Availability> consultAvailability(AvailabilitiesFilter availabilitiesFilter);
+
 
 
 

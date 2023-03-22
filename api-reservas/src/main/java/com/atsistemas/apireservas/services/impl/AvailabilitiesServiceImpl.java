@@ -1,5 +1,7 @@
 package com.atsistemas.apireservas.services.impl;
 
+import com.atsistemas.apireservas.controllers.Err.NoAvailabilityException;
+import com.atsistemas.apireservas.controllers.Err.ResourceNotFoundException;
 import com.atsistemas.apireservas.entities.Availability;
 import com.atsistemas.apireservas.repositories.AvailabilitiesRepository;
 import com.atsistemas.apireservas.services.AvailabilitiesService;
@@ -32,6 +34,19 @@ public class AvailabilitiesServiceImpl implements AvailabilitiesService {
                 .collect(Collectors.toList());
         availabilitiesList.forEach(availability -> {
             availability.setRooms(availability.getRooms() + nHabitaciones);
+        });
+        repository.saveAll(availabilitiesList);
+    }
+
+    @Override
+    public void reduceAvailability(Integer idHotel, LocalDate dateFrom, LocalDate dateTo) {
+        List<LocalDate> datesRange = DateUtils.getDatesBetweenTwoDates(dateFrom, dateTo);
+        List<Availability> availabilitiesList = datesRange.stream()
+                        .map(date -> repository.findAvailabilityForDateAndIdHotel(date, idHotel)
+                        .orElseThrow(() -> new NoAvailabilityException(date)))
+                        .collect(Collectors.toList());
+        availabilitiesList.forEach(availability -> {
+            availability.setRooms(availability.getRooms() - 1);
         });
         repository.saveAll(availabilitiesList);
     }

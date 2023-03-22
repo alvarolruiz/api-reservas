@@ -15,8 +15,8 @@ public interface BookingsRepository extends JpaRepository<Booking, Integer> {
     @Query(value = "SELECT b FROM Booking b " +
             "Where b.idHotel = :idHotel " +
             "AND b.dateFrom >= :dateFrom " +
-            "AND b.dateTo <= : dateTo ")
-    public List<Booking> findBooksForHotelBetweenDates(@Param("idHotel") Integer idHotel,
-                                                       @Param("dateFrom") LocalDate dateFrom,
-                                                       @Param("dateFrom") LocalDate dateTo);
+            "AND b.dateTo <= :dateTo ")
+    public List<Booking> findBookingssForHotelBetweenDates(@Param("idHotel") Integer idHotel,
+                                                           @Param("dateFrom") LocalDate dateFrom,
+                                                           @Param("dateTo") LocalDate dateTo);
 }

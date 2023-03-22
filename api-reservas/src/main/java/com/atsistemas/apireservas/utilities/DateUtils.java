@@ -2,6 +2,7 @@ package com.atsistemas.apireservas.utilities;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ public class DateUtils {
     static String defaultDatePattern = "dd/MM/yyyy";
     static  DateTimeFormatter formatter = DateTimeFormatter.ofPattern(defaultDatePattern);
 
-    public static LocalDate getLocalDateFromString(String stringDate){
+    public static LocalDate getLocalDateFromString(String stringDate) throws DateTimeParseException {
         return LocalDate.parse(stringDate, formatter);
     }
 

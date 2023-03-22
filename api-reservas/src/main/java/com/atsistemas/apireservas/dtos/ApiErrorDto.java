@@ -1,5 +1,6 @@
 package com.atsistemas.apireservas.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,9 +12,19 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ApiErrorDto {
+
+    @JsonProperty
     private HttpStatus status;
+    @JsonProperty
+
     private String path;
+    @JsonProperty
+
     private String error;
+    @JsonProperty
+
     private String message;
+    @JsonProperty
+
     private Instant instant;
 }
