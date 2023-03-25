@@ -1,14 +1,13 @@
 package com.atsistemas.apireservas.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
-
-
-@Data
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "availabilities")
@@ -27,6 +26,13 @@ public class Availability {
     private Hotel hotel;
     @Column(name = "rooms")
     private Integer rooms;
+
+    public Availability(Integer id, LocalDate date, Integer idHotel, Integer rooms) {
+        this.id = id;
+        this.date = date;
+        this.idHotel = idHotel;
+        this.rooms = rooms;
+    }
 
     public Availability(LocalDate date, Integer idHotel) {
         this.rooms = 0;

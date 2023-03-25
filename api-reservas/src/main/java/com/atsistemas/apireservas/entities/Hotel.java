@@ -1,11 +1,15 @@
 package com.atsistemas.apireservas.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "hotels")
 public class Hotel {
@@ -18,4 +22,9 @@ public class Hotel {
     private String name;
     @Column(name = "category")
     private Integer category;
+
+    public Hotel(String name, Integer category) {
+        this.name = name;
+        this.category = category;
+    }
 }

@@ -2,6 +2,7 @@ package com.atsistemas.apireservas.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class BookingDto {
 
     private Integer id;

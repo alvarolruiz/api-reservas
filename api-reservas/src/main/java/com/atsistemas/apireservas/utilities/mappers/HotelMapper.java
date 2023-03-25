@@ -15,8 +15,8 @@ public class HotelMapper {
         return modelMapper.map(hotelDto, Hotel.class);
     }
 
-    public static Hotel convertToDto (HotelDto hotelDto){
-        return modelMapper.map(hotelDto, Hotel.class);
+    public static HotelDto convertToDto (Hotel hotel){
+        return modelMapper.map(hotel, HotelDto.class);
     }
 
 }

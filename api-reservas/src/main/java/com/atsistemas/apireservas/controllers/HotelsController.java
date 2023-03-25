@@ -30,7 +30,7 @@ public class HotelsController {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity findById(@PathVariable(name = "id") Integer id){
-        return hotelsService.findHotelById(id).map(ResponseEntity::ok)
+        return hotelsService.findHotelById(id).map(hotel -> ResponseEntity.ok(HotelMapper.convertToDto(hotel)))
                 .orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
@@ -44,7 +44,8 @@ public class HotelsController {
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity update (@PathVariable (value = "id") Integer id, @Valid @RequestBody HotelDto hotelDto){
         hotelDto.setId(id);
-        hotelsService.updateHotel(id, HotelMapper.convertToEntity(hotelDto));
+        Hotel hotel = HotelMapper.convertToEntity(hotelDto);
+        hotelsService.updateHotel(id, hotel);
         return new ResponseEntity(HttpStatus.OK);
 
     }

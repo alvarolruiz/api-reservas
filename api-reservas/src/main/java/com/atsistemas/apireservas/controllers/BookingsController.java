@@ -5,6 +5,7 @@ import com.atsistemas.apireservas.dtos.BookingDto;
 import com.atsistemas.apireservas.services.BookingsService;
 import com.atsistemas.apireservas.utilities.mappers.BookingMapper;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -28,7 +29,7 @@ public class BookingsController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity saveBooking(@RequestBody @Valid BookingDto bookingDto) {
         bookingsService.saveBooking(BookingMapper.convertToEntity(bookingDto));
-        return ResponseEntity.ok(null);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -43,6 +44,12 @@ public class BookingsController {
     public ResponseEntity findBookingById(@PathVariable(value = "id") Integer id) {
         return bookingsService.findBookingById(id).map(ResponseEntity::ok)
                 .orElseThrow(() -> new ResourceNotFoundException(id));
+    }
+
+    @DeleteMapping
+    public ResponseEntity deleteBookingById(@PathVariable(value = "id") Integer id){
+        bookingsService.cancelBook(id);
+        return ResponseEntity.ok(null);
     }
 
 

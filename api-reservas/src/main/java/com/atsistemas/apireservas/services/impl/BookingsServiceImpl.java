@@ -4,6 +4,7 @@ import com.atsistemas.apireservas.entities.Booking;
 import com.atsistemas.apireservas.repositories.BookingsRepository;
 import com.atsistemas.apireservas.services.AvailabilitiesService;
 import com.atsistemas.apireservas.services.BookingsService;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -13,34 +14,39 @@ import java.util.Optional;
 @Service
 public class BookingsServiceImpl implements BookingsService {
 
-    private BookingsRepository repository;
+    private BookingsRepository bookingsRepository;
     private AvailabilitiesService availabilitiesService;
 
-    public BookingsServiceImpl(BookingsRepository repository, AvailabilitiesService availabilitiesService) {
-        this.repository = repository;
+
+    public BookingsServiceImpl(BookingsRepository bookingsRepository, AvailabilitiesService availabilitiesService) {
+        this.bookingsRepository = bookingsRepository;
         this.availabilitiesService = availabilitiesService;
     }
 
     @Override
     public void saveBooking(Booking booking) {
-        availabilitiesService.reduceAvailability(booking.getIdHotel(),booking.getDateFrom(), booking.getDateTo());
-        repository.save(booking);
+        availabilitiesService.reduceAvailability(booking.getIdHotel(), booking.getDateFrom(), booking.getDateTo());
+        bookingsRepository.save(booking);
     }
 
     @Override
     public List<Booking> findBookingsForHotelBetweenDates(Integer idHotel, LocalDate dateFrom, LocalDate dateTo) {
-        return repository.findBookingssForHotelBetweenDates(idHotel, dateFrom, dateTo);
+        return bookingsRepository.findBookingssForHotelBetweenDates(idHotel, dateFrom, dateTo);
     }
 
     @Override
     public Optional<Booking> findBookingById(Integer bookId) {
-        return repository.findById(bookId);
+        return bookingsRepository.findById(bookId);
     }
 
     @Override
     public void cancelBook(Integer bookId) {
-        //Cuando se cancela se abre la disponibilidad de nuevo, pero en que momento se ha actualizado, y es
-        //necesario poner el numero de habitaciones a reservar. Asumo que es una
-        repository.deleteById(bookId);
+        Optional<Booking> booking = findBookingById(bookId);
+        if (booking.isPresent()) {
+            availabilitiesService.reduceAvailability(booking.get().getIdHotel(), booking.get().getDateFrom(),
+                    booking.get().getDateTo());
+            bookingsRepository.deleteById(bookId);
+        }
+        bookingsRepository.deleteById(bookId);
     }
 }
