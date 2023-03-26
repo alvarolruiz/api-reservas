@@ -1,7 +1,6 @@
 package com.atsistemas.apireservas.utilities.specifications;
 
 import com.atsistemas.apireservas.entities.Availability;
-import com.atsistemas.apireservas.utilities.DateUtils;
 import com.atsistemas.apireservas.utilities.filters.AvailabilitiesFilter;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -10,8 +9,6 @@ import java.time.LocalDate;
 public class AvailabilitiesSpecifications {
     public static Specification<Availability> getSpecification(AvailabilitiesFilter availabilitiesFilter) {
         Specification<Availability> spec = Specification.where(null);
-       /* LocalDate localDateFrom = DateUtils.getLocalDateFromString();
-        LocalDate localDateTo = DateUtils.getLocalDateFromString(availabilitiesFilter.getDateTo());*/
         //DatesFilter
         spec = spec.and(filterAvailabilitiesBetweenTwoDates(availabilitiesFilter.getDateFrom(), availabilitiesFilter.getDateTo()));
         if (availabilitiesFilter.getCategory() != null) {

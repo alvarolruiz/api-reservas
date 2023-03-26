@@ -30,7 +30,8 @@ public class Booking {
     @Column(name = "email")
     private String email;
 
-    public Booking(Integer idHotel, LocalDate dateFrom, LocalDate dateTo, String email) {
+    public Booking(Integer id, Integer idHotel, LocalDate dateFrom, LocalDate dateTo, String email) {
+        this.id = id;
         this.idHotel = idHotel;
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;

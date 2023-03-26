@@ -4,7 +4,6 @@ import com.atsistemas.apireservas.entities.Booking;
 import com.atsistemas.apireservas.repositories.BookingsRepository;
 import com.atsistemas.apireservas.services.AvailabilitiesService;
 import com.atsistemas.apireservas.services.BookingsService;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -47,5 +46,6 @@ public class BookingsServiceImpl implements BookingsService {
                     booking.get().getDateTo());
             bookingsRepository.deleteById(bookId);
         }
+
     }
 }

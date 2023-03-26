@@ -1,19 +1,14 @@
 package com.atsistemas.apireservas.repositories;
 
 import com.atsistemas.apireservas.entities.Booking;
-import com.atsistemas.apireservas.entities.Hotel;
 import com.atsistemas.apireservas.utilities.DateUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.data.repository.query.Param;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.print.Book;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,14 +26,14 @@ public class BookingsRepositoryTest {
     @Test
     public void testFindById() {
         Optional<Booking> booking = bookingsRepository.findById(1);
-        Assertions.assertEquals(booking.isPresent(), true);
+        Assertions.assertTrue(booking.isPresent());
         Assertions.assertEquals(booking.get().getEmail(), "juanperez@gmail.com");
     }
 
     @Test
     public void testFindByIdNotFound() {
         Optional<Booking> booking = bookingsRepository.findById(10);
-        Assertions.assertEquals(booking.isPresent(), false);
+        Assertions.assertFalse(booking.isPresent());
     }
 
 
@@ -46,7 +41,7 @@ public class BookingsRepositoryTest {
     @Transactional
     public void testSave() {
         String email = "alvaro@gmail.com";
-        Booking booking = new Booking(1, DateUtils.getLocalDateFromString("25/03/2023"),
+        Booking booking = new Booking(1, 1, DateUtils.getLocalDateFromString("25/03/2023"),
                 DateUtils.getLocalDateFromString("25/03/2023"), email);
         Booking savedBooking = bookingsRepository.save(booking);
         Assertions.assertNotNull(savedBooking);
@@ -58,7 +53,7 @@ public class BookingsRepositoryTest {
     public void testDelete() {
         Integer id = 1;
         bookingsRepository.deleteById(id);
-        Assertions.assertEquals(bookingsRepository.findById(id).isPresent(), false);
+        Assertions.assertFalse(bookingsRepository.findById(id).isPresent());
     }
 
     @Test

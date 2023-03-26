@@ -4,7 +4,6 @@ import com.atsistemas.apireservas.entities.Hotel;
 import com.atsistemas.apireservas.repositories.HotelsRepository;
 import com.atsistemas.apireservas.services.impl.HotelsServiceImpl;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,8 +38,6 @@ public class HotelServiceImplTest {
         List<Hotel> hotelList = service.findAllHotels();
         Assertions.assertEquals(mockList.size(), hotelList.size());
         Mockito.verify(repository, Mockito.times(1)).findAll();
-        Mockito.verifyNoInteractions(repository);
-
     }
 
     @Test
@@ -50,7 +47,6 @@ public class HotelServiceImplTest {
         List<Hotel> hotelList = service.findAllHotels();
         Assertions.assertEquals(mockList.size(), hotelList.size());
         Mockito.verify(repository, Mockito.times(1)).findAll();
-        Mockito.verifyNoInteractions(repository);
     }
 
     @Test
@@ -61,7 +57,6 @@ public class HotelServiceImplTest {
         Optional<Hotel> hotel = service.findHotelById(id);
         Assertions.assertEquals(hotel.get(), mockHotel.get());
         Mockito.verify(repository, Mockito.times(1)).findById(id);
-        Mockito.verifyNoInteractions(repository);
     }
 
     @Test
@@ -70,9 +65,8 @@ public class HotelServiceImplTest {
         Integer id = 10;
         Mockito.when(repository.findById(id)).thenReturn(mockHotel);
         Optional<Hotel> hotel = service.findHotelById(id);
-        Assertions.assertEquals(hotel.isPresent(), mockHotel.isPresent());
+        Assertions.assertFalse(hotel.isPresent());
         Mockito.verify(repository, Mockito.times(1)).findById(id);
-        Mockito.verifyNoInteractions(repository);
     }
 
 }

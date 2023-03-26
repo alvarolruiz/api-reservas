@@ -57,7 +57,7 @@ public class HotelsController {
         Hotel hotel = HotelMapper.convertToEntity(hotelDto);
         logger.info(String.format("Updating hotel with id '%d'",id));
         hotelsService.updateHotel(id, hotel);
-        logger.info("Hotel successfully update");
+        logger.info("Hotel successfully updated");
         return new ResponseEntity(HttpStatus.OK);
 
     }

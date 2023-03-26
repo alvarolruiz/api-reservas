@@ -7,7 +7,6 @@ import com.atsistemas.apireservas.utilities.DateUtils;
 import com.atsistemas.apireservas.utilities.filters.AvailabilitiesFilter;
 import com.atsistemas.apireservas.utilities.specifications.AvailabilitiesSpecifications;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,6 +30,7 @@ public class AvailabilitiesServiceImplTest {
         this.availabilitiesService = new AvailabilitiesServiceImpl(availabilitiesRepository);
     }
 
+    //Strict stubbing argument mismatch. No he podido solucionarlo
     @Test
     public void testConsultAvailabilities() {
         LocalDate dateFrom = DateUtils.getLocalDateFromString("20/03/2023");
@@ -39,11 +39,6 @@ public class AvailabilitiesServiceImplTest {
         filter.setDateFrom(dateFrom);
         filter.setDateTo(dateTo);
         Specification<Availability> availabilitySpecification = AvailabilitiesSpecifications.getSpecification(filter);
-
-        // Create a mock repository object
-        AvailabilitiesRepository availabilitiesRepository = Mockito.mock(AvailabilitiesRepository.class);
-
-        // Create a list of Availability objects to be returned by the mock repository
         List<Availability> availabilityList = List.of(
                 new Availability(1, dateFrom, 1, 5),
                 new Availability(2, dateFrom.plusDays(1), 1, 5),
@@ -51,17 +46,8 @@ public class AvailabilitiesServiceImplTest {
                 new Availability(4, dateFrom.plusDays(1), 1, 5),
                 new Availability(5, dateFrom.plusDays(1), 1, 5)
         );
-
-        // Stub the findAll method of the mock repository to return the availabilityList
-        Mockito.when(availabilitiesRepository.findAll(Mockito.eq(availabilitySpecification))).thenReturn(availabilityList);
-
-        // Create an instance of the AvailabilitiesServiceImpl class and set its repository field to the mock repository
-        AvailabilitiesServiceImpl availabilitiesService = new AvailabilitiesServiceImpl(availabilitiesRepository);
-
-        // Call the consultAvailability method with the filter object
+        Mockito.when(availabilitiesRepository.findAll(ArgumentMatchers.eq(availabilitySpecification))).thenReturn(availabilityList);
         List<Availability> result = availabilitiesService.consultAvailability(filter);
-
-        // Assert that the result matches the availabilityList returned by the mock repository
         Assertions.assertEquals(availabilityList, result);
     }
 }

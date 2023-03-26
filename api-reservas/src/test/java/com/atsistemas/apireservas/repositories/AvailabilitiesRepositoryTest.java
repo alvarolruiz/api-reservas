@@ -9,7 +9,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,14 +20,14 @@ public class AvailabilitiesRepositoryTest {
     @Test
     public void testFindAll() {
         List<Availability> availabilityList = availabilitiesRepository.findAll();
-        Assertions.assertEquals(1, availabilityList.size());
+        Assertions.assertEquals(36, availabilityList.size());
     }
 
     @Test
     public void testFindById() {
         Optional<Availability> availability = availabilitiesRepository.findById(1);
         Availability expectedAvailability = new Availability(1, DateUtils.getLocalDateFromString("20/03/2023"), 1, 10);
-        Assertions.assertEquals(availability.isPresent(), true);
+        Assertions.assertTrue(availability.isPresent());
         Assertions.assertEquals(availability.get().getDate(), expectedAvailability.getDate());
         Assertions.assertEquals(availability.get().getIdHotel(), expectedAvailability.getIdHotel());
         Assertions.assertEquals(availability.get().getRooms(), expectedAvailability.getRooms());
@@ -36,8 +35,8 @@ public class AvailabilitiesRepositoryTest {
 
     @Test
     public void testFindByIdNotFound() {
-        Optional<Availability> availability = availabilitiesRepository.findById(10);
-        Assertions.assertEquals(availability.isPresent(), false);
+        Optional<Availability> availability = availabilitiesRepository.findById(100);
+        Assertions.assertFalse(availability.isPresent());
     }
 
     @Test
@@ -56,7 +55,7 @@ public class AvailabilitiesRepositoryTest {
     public void testDelete() {
         Integer id = 1;
         availabilitiesRepository.deleteById(id);
-        Assertions.assertEquals(availabilitiesRepository.findById(id).isPresent(), false);
+        Assertions.assertFalse(availabilitiesRepository.findById(id).isPresent());
     }
 
     @Test

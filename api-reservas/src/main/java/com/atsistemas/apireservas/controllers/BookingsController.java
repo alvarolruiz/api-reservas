@@ -60,7 +60,7 @@ public class BookingsController {
     public ResponseEntity deleteBookingById(@PathVariable(value = "id") Integer id){
         logger.info(String.format("Cancel booking with id '%d'", id));
         bookingsService.cancelBooking(id);
-        return ResponseEntity.ok(null);
+        return ResponseEntity.noContent().build();
     }
 
 
