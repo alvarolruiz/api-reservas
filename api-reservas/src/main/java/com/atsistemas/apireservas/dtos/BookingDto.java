@@ -26,4 +26,5 @@ public class BookingDto {
     @NotNull
     @NotEmpty
     private String email;
+    private HotelDto hotel;
 }

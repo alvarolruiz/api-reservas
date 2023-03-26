@@ -13,5 +13,5 @@ public interface BookingsService {
 
     Optional<Booking> findBookingById (Integer bookId);
 
-    void cancelBook (Integer bookId);
+    void cancelBooking(Integer bookId);
 }

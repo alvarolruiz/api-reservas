@@ -28,6 +28,7 @@ import static org.springframework.web.servlet.function.RequestPredicates.content
 @WebMvcTest(HotelsController.class)
 @AutoConfigureMockMvc
 public class HotelsControllerTest {
+
     @Autowired
     private MockMvc mockMvc;
 

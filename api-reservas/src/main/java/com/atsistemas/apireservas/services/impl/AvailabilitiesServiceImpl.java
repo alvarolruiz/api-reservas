@@ -30,7 +30,7 @@ public class AvailabilitiesServiceImpl implements AvailabilitiesService {
         List<LocalDate> datesRange = DateUtils.getDatesBetweenTwoDates(dateFrom, dateTo);
         List<Availability> availabilitiesList = datesRange.stream()
                 .map(date -> repository.findAvailabilityForDateAndIdHotel(date, idHotel)
-                .orElseGet(() -> new Availability(date, idHotel)))
+                        .orElseGet(() -> new Availability(date, idHotel)))
                 .collect(Collectors.toList());
         availabilitiesList.forEach(availability -> {
             availability.setRooms(availability.getRooms() + nHabitaciones);
@@ -42,9 +42,9 @@ public class AvailabilitiesServiceImpl implements AvailabilitiesService {
     public void reduceAvailability(Integer idHotel, LocalDate dateFrom, LocalDate dateTo) {
         List<LocalDate> datesRange = DateUtils.getDatesBetweenTwoDates(dateFrom, dateTo);
         List<Availability> availabilitiesList = datesRange.stream()
-                        .map(date -> repository.findAvailabilityForDateAndIdHotel(date, idHotel)
+                .map(date -> repository.findAvailabilityForDateAndIdHotel(date, idHotel)
                         .orElseThrow(() -> new NoAvailabilityException(date)))
-                        .collect(Collectors.toList());
+                .collect(Collectors.toList());
         availabilitiesList.forEach(availability -> {
             availability.setRooms(availability.getRooms() - 1);
         });
@@ -56,14 +56,15 @@ public class AvailabilitiesServiceImpl implements AvailabilitiesService {
         List<LocalDate> datesRange = DateUtils.getDatesBetweenTwoDates(availabilitiesFilter.getDateFrom(), availabilitiesFilter.getDateTo());
         Specification<Availability> spec = AvailabilitiesSpecifications.getSpecification(availabilitiesFilter);
         List<Availability> availabilityList = repository.findAll(spec);
-        boolean isAvailable = false;
-        for (LocalDate d : datesRange) {
-            isAvailable = availabilityList.stream().anyMatch(a -> a.getDate().equals(d) && a.getRooms().intValue() >= 1);
+        boolean allAvailable = true;
+        if (!availabilityList.isEmpty()) {
+            int index = 0;
+            do {
+                LocalDate d = datesRange.get(index);
+                allAvailable = availabilityList.stream().anyMatch(a -> a.getDate().equals(d) && a.getRooms().intValue() >= 1);
+                index++;
+            } while (!availabilityList.isEmpty() && allAvailable && index < datesRange.size());
         }
-        return isAvailable ? availabilityList : new ArrayList<>();
-    }
-
-    public void setRepository(AvailabilitiesRepository repository) {
-        this.repository = repository;
+        return allAvailable ? availabilityList : new ArrayList<>();
     }
 }

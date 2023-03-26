@@ -17,4 +17,5 @@ public class HotelDto {
     @Min(value = 1, message = "Category value must be >= 1 and <=5")
     @Max(value = 5, message = "Category value must be >= 1 and <=5")
     private Integer category;
+
 }

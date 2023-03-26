@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @Repository
 public interface AvailabilitiesRepository extends JpaRepository<Availability, Integer>, JpaSpecificationExecutor<Availability> {
-
     @Query (value = "SELECT a FROM Availability a WHERE a.date = :date AND a.idHotel = :idHotel")
     public Optional<Availability> findAvailabilityForDateAndIdHotel(@Param("date")LocalDate date, @Param("idHotel") Integer idHotel);
 }

@@ -19,6 +19,10 @@ public class Booking {
     private Integer id;
     @Column(name = "id_hotel")
     private Integer idHotel;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_hotel" , insertable = false, updatable = false)
+    private Hotel hotel;
     @Column(name = "date_from")
     private LocalDate dateFrom;
     @Column(name = "date_to")

@@ -11,7 +11,6 @@ import java.util.List;
 
 @Repository
 public interface BookingsRepository extends JpaRepository<Booking, Integer> {
-
     @Query(value = "SELECT b FROM Booking b " +
             "Where b.idHotel = :idHotel " +
             "AND b.dateFrom >= :dateFrom " +

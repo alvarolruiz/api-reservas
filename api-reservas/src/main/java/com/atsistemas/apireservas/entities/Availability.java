@@ -71,4 +71,8 @@ public class Availability {
     public void setRooms(Integer rooms) {
         this.rooms = rooms;
     }
+
+    public Hotel getHotel() {
+        return hotel;
+    }
 }

@@ -40,13 +40,12 @@ public class BookingsServiceImpl implements BookingsService {
     }
 
     @Override
-    public void cancelBook(Integer bookId) {
+    public void cancelBooking(Integer bookId) {
         Optional<Booking> booking = findBookingById(bookId);
         if (booking.isPresent()) {
-            availabilitiesService.reduceAvailability(booking.get().getIdHotel(), booking.get().getDateFrom(),
+            availabilitiesService.openAvailability(booking.get().getIdHotel(), 1, booking.get().getDateFrom(),
                     booking.get().getDateTo());
             bookingsRepository.deleteById(bookId);
         }
-        bookingsRepository.deleteById(bookId);
     }
 }
